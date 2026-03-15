@@ -1,14 +1,10 @@
-#include <Arduino.h>
-#include <Arduino_CAN.h>
+#include "./main.hpp"
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(SERIAL_BAUD_RATE);
   while (!Serial);
 
-  if (!CAN.begin(CanBitRate::BR_500k)) {
-    Serial.println("CAN.begin failed");
-    while (1);
-  }
+  if (!CAN.begin(CAN_BAUD_RATE)) { Serial.println("CAN.begin failed"); while (1); }
 
   Serial.println("CAN init OK");
 }
