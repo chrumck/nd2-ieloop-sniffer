@@ -104,9 +104,10 @@ Transmitted at 50 Hz. 6 ADC channels are sampled at 10-bit resolution (raw 14-bi
 
 **Decoding a channel value `v` (0–1023) back to actual voltage:**
 
-`V_actual = (v / 1023.0) × 3.3 × scale_factor`
+`V_actual = v / 40.0`  (0.025 V per count; 1000 = 25 V)
 
-where `scale_factor` = 7.91 for ch0–3, 11.0 for ch4–5.
+All channels use the same formula — the per-channel divider/op-amp scale factors are applied during encoding.
+Values saturate at 1023 (= 25.575 V), which is above the 24.3 V capacitor maximum.
 
 **Terminals 1L and 1D — unknown, pre-investigation required:** Before connecting the sniffer to the car, terminals 1L
 and 1D must be inspected with an oscilloscope to determine whether the signal is analog or digital. The PCM inspection

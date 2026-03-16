@@ -4,6 +4,8 @@ void setup() {
   Serial.begin(SERIAL_BAUD_RATE);
   while (!Serial && millis() < 2000);
 
+  analogReadResolution(14);
+
   if (!CAN.begin(CAN_BAUD_RATE)) { Serial.println("CAN.begin failed"); while (1); }
 
   Serial.println("CAN init OK");
@@ -16,7 +18,12 @@ void loop() {
   lastSample = now;
 
   uint16_t v[6];
-  for (int i = 0; i < 6; i++) v[i] = (uint16_t)analogRead(A0 + i);
+  for (int i = 0; i < 6; i++) {
+    float scale = (i < 4) ? SCALE_CH0_3 : SCALE_CH4_5;
+    float volts = (analogRead(A0 + i) / ADC_FULL_SCALE) * ADC_VREF * scale;
+    uint16_t code = (uint16_t)(volts * COUNTS_PER_VOLT + 0.5f);
+    v[i] = (code > 1023) ? 1023 : code;
+  }
 
   uint8_t d[8];
   d[0] = v[0] >> 2;
