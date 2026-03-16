@@ -17,4 +17,6 @@ names. Always verify which ECU's connector is being referenced.
 - **Tool:** PlatformIO (`platformio.ini`, environment `uno_r4_wifi`, platform `renesas-ra`, framework `arduino`)
 - **Builds run from VS Code**, not the CLI — do not suggest `pio run` terminal commands
 - **Serial monitor baud rate:** 115200
+- **ADC resolution:** call `analogReadResolution(14)` in `setup()` - if the code requires such resolution - without it
+  Arduino silently returns 10-bit values (0–1023) even though the RA6M5 ADC is 14-bit
 - **CAN bus speed:** 500 kbps (`CanBitRate::BR_500k`) — Mazda HS-CAN standard

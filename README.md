@@ -86,6 +86,28 @@ The Arduino's 6 ADC channels are split into two groups with different front-end 
 | 4      | 2A             | Total supercapacitor pack voltage (0–24.3 V)                         | Lower impedance signal                  |
 | 5      | 1H             | Battery voltage at current sensor input — see wiring diagram 0140-1b | Lower impedance signal                  |
 
+## Custom CAN Frame (ID 0x7F0)
+
+Transmitted at 50 Hz. 6 ADC channels are sampled at 10-bit resolution (raw 14-bit reading right-shifted by 4, range
+0–1023) and packed big-endian into an 8-byte payload with 4 spare zero bits at the end.
+
+| Byte | Bits 7–0 contents       |
+| ---- | ----------------------- |
+| 0    | ch0[9:2]                |
+| 1    | ch0[1:0] ‖ ch1[9:4]    |
+| 2    | ch1[3:0] ‖ ch2[9:6]    |
+| 3    | ch2[5:0] ‖ ch3[9:8]    |
+| 4    | ch3[7:0]               |
+| 5    | ch4[9:2]                |
+| 6    | ch4[1:0] ‖ ch5[9:4]    |
+| 7    | ch5[3:0] ‖ 0000         |
+
+**Decoding a channel value `v` (0–1023) back to actual voltage:**
+
+`V_actual = (v / 1023.0) × 3.3 × scale_factor`
+
+where `scale_factor` = 7.91 for ch0–3, 11.0 for ch4–5.
+
 **Terminals 1L and 1D — unknown, pre-investigation required:** Before connecting the sniffer to the car, terminals 1L
 and 1D must be inspected with an oscilloscope to determine whether the signal is analog or digital. The PCM inspection
 document shows PCM terminals 2C and 2AK as "DC-DC converter (i-ELOOP) control" with values of 0 or B+, which does not
