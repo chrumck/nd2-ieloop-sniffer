@@ -71,8 +71,8 @@ The Arduino's 6 ADC channels are split into two groups with different front-end 
 
 **ADC scaling (Arduino UNO R4 WiFi):**
 
-- ADC is 14-bit (0–16383 counts), reference = 3.3V
-- `V_at_pin = (raw_count / 16383.0) × 3.3`
+- ADC is 14-bit (0–16383 counts), reference = 5V
+- `V_at_pin = (raw_count / 16383.0) × 5.0`
 - `V_actual = V_at_pin × scale_factor` (7.91 for ch 0–3, 11.0 for ch 4–5)
 
 **Channel-to-terminal mapping:**

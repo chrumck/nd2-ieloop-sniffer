@@ -1,0 +1,56 @@
+VERSION ""
+
+
+NS_ :
+    NS_DESC_
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SIG_TYPE_REF_
+    VAL_TABLE_
+    SIG_GROUP_
+    SIG_VALTYPE_
+    SIGTYPE_VALTYPE_
+    BO_TX_BU_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BU_SG_REL_
+    BU_EV_REL_
+    BU_BO_REL_
+    SG_MUL_VAL_
+
+BS_: 
+BU_: ADC_sniffer 
+BO_ 2032 sniffer_ADC: 8 ADC_sniffer
+   SG_ ADC_0 : 7|10@0+ (1,0) [0|1] "" ADC_sniffer
+   SG_ ADC_1 : 13|10@0+ (1,0) [0|1] "" ADC_sniffer
+   SG_ ADC_2 : 19|10@0+ (1,0) [0|1] "" ADC_sniffer
+   SG_ ADC_3 : 25|10@0+ (1,0) [0|1] "" ADC_sniffer
+   SG_ ADC_4 : 47|10@0+ (1,0) [0|1] "" ADC_sniffer
+   SG_ ADC_5 : 53|10@0+ (1,0) [0|1] "" ADC_sniffer
+
+CM_ BU_ ADC_sniffer "Default node if none specified";
+BA_DEF_ BO_ "GenMsgBackgroundColor" STRING ;
+BA_DEF_ BO_ "GenMsgForegroundColor" STRING ;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
+BA_DEF_DEF_ "GenMsgBackgroundColor" "#ffffff";
+BA_DEF_DEF_ "GenMsgForegroundColor" "#000000";
+BA_DEF_DEF_ "matchingcriteria" 0;
+BA_DEF_DEF_ "filterlabeling" 1;
+BA_DEF_DEF_ "matchingcriteria" 0;
+BA_DEF_DEF_ "filterlabeling" 0;
