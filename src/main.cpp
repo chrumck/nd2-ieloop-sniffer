@@ -22,7 +22,7 @@ void loop() {
     float scale = (i < 4) ? SCALE_CH0_3 : SCALE_CH4_5;
     float volts = (analogRead(A0 + i) / ADC_FULL_SCALE) * ADC_VREF * scale;
     uint16_t code = (uint16_t)(volts * COUNTS_PER_VOLT + 0.5f);
-    v[i] = (code > 1023) ? 1023 : code;
+    v[i] = constrain(code, 0, 1023);
   }
 
   uint8_t d[8];
