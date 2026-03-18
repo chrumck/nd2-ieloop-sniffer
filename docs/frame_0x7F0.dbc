@@ -41,9 +41,10 @@ BO_ 2032 sniffer_ADC: 8 ADC_sniffer
    SG_ ADC_4 : 47|10@0+ (1,0) [0|1] "" ADC_sniffer
    SG_ ADC_5 : 53|10@0+ (1,0) [0|1] "" ADC_sniffer
 
-CM_ BU_ ADC_sniffer "Default node if none specified";
 BA_DEF_ BO_ "GenMsgBackgroundColor" STRING ;
 BA_DEF_ BO_ "GenMsgForegroundColor" STRING ;
+BA_DEF_ BO_ "matchingcriteria" INT 0 0;
+BA_DEF_ BO_ "filterlabeling" INT 0 0;
 BA_DEF_ BO_ "matchingcriteria" INT 0 0;
 BA_DEF_ BO_ "filterlabeling" INT 0 0;
 BA_DEF_ BO_ "matchingcriteria" INT 0 0;
@@ -51,6 +52,6 @@ BA_DEF_ BO_ "filterlabeling" INT 0 0;
 BA_DEF_DEF_ "GenMsgBackgroundColor" "#ffffff";
 BA_DEF_DEF_ "GenMsgForegroundColor" "#000000";
 BA_DEF_DEF_ "matchingcriteria" 0;
-BA_DEF_DEF_ "filterlabeling" 1;
+BA_DEF_DEF_ "filterlabeling" 0;
 BA_DEF_DEF_ "matchingcriteria" 0;
 BA_DEF_DEF_ "filterlabeling" 0;
