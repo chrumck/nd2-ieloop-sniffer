@@ -17,8 +17,8 @@ void loop() {
   if (now - lastSample < SAMPLE_INTERVAL_MS) return;
   lastSample = now;
 
-  uint16_t v[6];
-  for (int i = 0; i < 6; i++) {
+  uint16_t v[ADC_CHANNEL_COUNT];
+  for (int i = 0; i < ADC_CHANNEL_COUNT; i++) {
     float volts = (analogRead(A0 + i) / ADC_FULL_SCALE) * ADC_VREF * CH_SCALE[i] - CH_OFFSET[i];
     uint16_t code = (uint16_t)(volts * COUNTS_PER_VOLT + 0.5f);
     v[i] = constrain(code, 0, 1023);
