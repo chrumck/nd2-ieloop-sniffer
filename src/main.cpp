@@ -19,8 +19,7 @@ void loop() {
 
   uint16_t v[6];
   for (int i = 0; i < 6; i++) {
-    float scale = (i < 4) ? SCALE_CH0_3 : SCALE_CH4_5;
-    float volts = (analogRead(A0 + i) / ADC_FULL_SCALE) * ADC_VREF * scale;
+    float volts = (analogRead(A0 + i) / ADC_FULL_SCALE) * ADC_VREF * CH_SCALE[i] - CH_OFFSET[i];
     uint16_t code = (uint16_t)(volts * COUNTS_PER_VOLT + 0.5f);
     v[i] = constrain(code, 0, 1023);
   }

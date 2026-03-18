@@ -55,25 +55,14 @@ The Arduino's 6 ADC channels are split into two groups with different front-end 
 **Channels 0–3 — LM324N op-amp buffer follower + high-impedance voltage divider:**
 
 - Voltage divider: 4.7 MΩ (top) / 680 kΩ (bottom), 1% precision
-- Divider ratio: 680 / (4700 + 680) ≈ 0.1264 → scale factor ≈ ×7.91
 - Total input impedance ≈ 5.38 MΩ (needed for terminals that require high-impedance probing)
 - The LM324N is powered from Arduino Vin (~12V), dropped to ~10V via a Schottky diode for supply stability; output
-  ceiling ≈ 8.5V (V⁺ − 1.5V), so the op-amp does **not** act as overvoltage protection for the 3.3V ADC — the divider
-  ratio itself is the protection mechanism
-- Maximum measurable input: ~3.3V × 7.91 ≈ 26.1V (covers the 24.3V capacitor range with margin)
+  ceiling ≈ 8.5V (V⁺ − 1.5V)
 
 **Channels 4–5 — Resistive divider only (no op-amp):**
 
 - Voltage divider: 10 kΩ (top) / 1 kΩ (bottom), 1% precision
-- Divider ratio: 1/11 → scale factor ×11
 - Total input impedance = 11 kΩ
-- Maximum measurable input: 3.3V × 11 = 36.3V
-
-**ADC scaling (Arduino UNO R4 WiFi):**
-
-- ADC is 14-bit (0–16383 counts), reference = 5V
-- `V_at_pin = (raw_count / 16383.0) × 5.0`
-- `V_actual = V_at_pin × scale_factor` (7.91 for ch 0–3, 11.0 for ch 4–5)
 
 **Channel-to-terminal mapping:**
 
@@ -88,26 +77,26 @@ The Arduino's 6 ADC channels are split into two groups with different front-end 
 
 ## Custom CAN Frame (ID 0x7F0)
 
-Transmitted at 50 Hz. 6 ADC channels are sampled at 10-bit resolution (raw 14-bit reading right-shifted by 4, range
-0–1023) and packed big-endian into an 8-byte payload with 4 spare zero bits at the end.
+6 ADC channels are encoded as 10-bit values (0–1023) and packed big-endian into an 8-byte payload with 4 spare zero bits
+at the end.
 
-| Byte | Bits 7–0 contents       |
-| ---- | ----------------------- |
-| 0    | ch0[9:2]                |
-| 1    | ch0[1:0] ‖ ch1[9:4]    |
-| 2    | ch1[3:0] ‖ ch2[9:6]    |
-| 3    | ch2[5:0] ‖ ch3[9:8]    |
-| 4    | ch3[7:0]               |
-| 5    | ch4[9:2]                |
-| 6    | ch4[1:0] ‖ ch5[9:4]    |
-| 7    | ch5[3:0] ‖ 0000         |
+| Byte | Bits 7–0 contents   |
+| ---- | ------------------- |
+| 0    | ch0[9:2]            |
+| 1    | ch0[1:0] ‖ ch1[9:4] |
+| 2    | ch1[3:0] ‖ ch2[9:6] |
+| 3    | ch2[5:0] ‖ ch3[9:8] |
+| 4    | ch3[7:0]            |
+| 5    | ch4[9:2]            |
+| 6    | ch4[1:0] ‖ ch5[9:4] |
+| 7    | ch5[3:0] ‖ 0000     |
 
 **Decoding a channel value `v` (0–1023) back to actual voltage:**
 
-`V_actual = v / 40.0`  (0.025 V per count; 1000 = 25 V)
+`V_actual = v / COUNTS_PER_VOLT` (see `src/main.hpp`)
 
-All channels use the same formula — the per-channel divider/op-amp scale factors are applied during encoding.
-Values saturate at 1023 (= 25.575 V), which is above the 24.3 V capacitor maximum.
+All channels use the same formula — the per-channel scale factors and offsets are applied during encoding. Values
+saturate at 1023.
 
 **Terminals 1L and 1D — unknown, pre-investigation required:** Before connecting the sniffer to the car, terminals 1L
 and 1D must be inspected with an oscilloscope to determine whether the signal is analog or digital. The PCM inspection
